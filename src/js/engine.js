@@ -1,29 +1,48 @@
 const images = [
-    "cat.png",
-    "cat.png",
-    "cock.png",
-    "cock.png",
-    "cow.png",
-    "cow.png",
-    "dog.png",
-    "dog.png",
-    "elephant.png",
-    "elephant.png",
-    "lion.png",
-    "lion.png",
-    "monkey.png",
-    "monkey.png",
-    "pig.png",
-    "pig.png",
+    { src: "cat.png", sound: "cat.mp3" },
+    { src: "cat.png", sound: "cat.mp3" },
+    { src: "cock.png", sound: "cock.mp3" },
+    { src: "cock.png", sound: "cock.mp3" },
+    { src: "cow.png", sound: "cow.mp3" },
+    { src: "cow.png", sound: "cow.mp3" },
+    { src: "dog.png", sound: "dog.mp3" },
+    { src: "dog.png", sound: "dog.mp3" },
+    { src: "elephant.png", sound: "elephant.mp3" },
+    { src: "elephant.png", sound: "elephant.mp3" },
+    { src: "lion.png", sound: "lion.mp3" },
+    { src: "lion.png", sound: "lion.mp3" },
+    { src: "monkey.png", sound: "monkey.mp3" },
+    { src: "monkey.png", sound: "monkey.mp3" },
+    { src: "pig.png", sound: "pig.mp3" },
+    { src: "pig.png", sound: "pig.mp3" },
   ];
+  
   let openCards = [];
   
-  let shuffleEmojis = emojis.sort(() => (Math.random() > 0.5 ? 2 : -1));
+  let shuffleImages = images.sort(() => (Math.random() > 0.5 ? 2 : -1));
   
-  for (let i = 0; i < emojis.length; i++) {
+  for (let i = 0; i < images.length; i++) {
     let box = document.createElement("div");
     box.className = "item";
-    box.innerHTML = shuffleEmojis[i];
+    
+    // Cria o elemento <img> e adiciona a imagem
+    let img = document.createElement("img");
+    img.src = `./src/assets/images/${shuffleImages[i].src}`;
+    img.alt = shuffleImages[i].src.split('.')[0];  // Usando o nome do arquivo como alt
+    
+    // Faz a imagem ser contida no quadrado
+    img.style.width = "80px";  // Ajuste conforme necessário
+    img.style.height = "80px"; // Ajuste conforme necessário
+  
+    // Função para tocar o som
+    const audio = new Audio(`./src/assets/sounds/${shuffleImages[i].sound}`);
+    
+    img.onclick = () => {
+      audio.play();  // Toca o som ao clicar na imagem
+      handleClick.call(box); // Chama a função handleClick associada ao clique
+    };
+    
+    box.appendChild(img);
     box.onclick = handleClick;
     document.querySelector(".game").appendChild(box);
   }
@@ -52,7 +71,8 @@ const images = [
   
     openCards = [];
   
-    if (document.querySelectorAll(".boxMatch").length === emojis.length) {
+    if (document.querySelectorAll(".boxMatch").length === images.length) {
       alert("Você venceu !");
     }
   }
+  
